@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivansh Ajmera — Full-Stack Creative Engineer & MERN Architect</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Curated Modern Tech-Agency Google Fonts (Outfit + Space Grotesk + Plus Jakarta Sans + JetBrains Mono) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Three.js (Studio Metallic Sculpture) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Outfit', 'sans-serif'],
+                        accent: ['"Space Grotesk"', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ==========================================================================
+           LUXURY EDITORIAL DESIGN TOKENS (SWISS PAPER LIGHT & OBSIDIAN DARK)
+           ========================================================================== */
+        :root,
+        [data-theme="paper"] {
+            --bg-primary: #F5F2EB;
+            --bg-elevated: #EBE6DC;
+            --bg-glass: rgba(245, 242, 235, 0.85);
+            --bg-subtle: rgba(17, 17, 17, 0.035);
+            --text-primary: #111111;
+            --text-secondary: #55524D;
+            --text-muted: #8C877E;
+            --border-hairline: rgba(17, 17, 17, 0.12);
+            --border-strong: rgba(17, 17, 17, 0.28);
+            --accent-vermilion: #E02E12;
+            --accent-champagne: #8C6D3F;
+            --accent-emerald: #059669;
+            --selection-bg: #E02E12;
+            --selection-text: #F5F2EB;
+        }
+
+        [data-theme="obsidian"] {
+            --bg-primary: #0A0A0C;
+            --bg-elevated: #121215;
+            --bg-glass: rgba(18, 18, 21, 0.78);
+            --bg-subtle: rgba(244, 240, 234, 0.03);
+            --text-primary: #F4F0EA;
+            --text-secondary: #9A9690;
+            --text-muted: #66635E;
+            --border-hairline: rgba(244, 240, 234, 0.1);
+            --border-strong: rgba(244, 240, 234, 0.24);
+            --accent-vermilion: #FF3B1D;
+            --accent-champagne: #D9C39E;
+            --accent-emerald: #10B981;
+            --selection-bg: #FF3B1D;
+            --selection-text: #F4F0EA;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        ::selection {
+            background: var(--selection-bg);
+            color: var(--selection-text);
+        }
+
+        /* Custom Minimalist Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-strong);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-vermilion);
+        }
+
+        /* Subtle Editorial Film Grain Overlay */
+        .film-grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 90;
+            opacity: 0.032;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Architectural Hairline Utilities */
+        .hairline-b { border-bottom: 1px solid var(--border-hairline); }
+        .hairline-t { border-top: 1px solid var(--border-hairline); }
+        .hairline-r { border-right: 1px solid var(--border-hairline); }
+        .hairline-l { border-left: 1px solid var(--border-hairline); }
+        .hairline-box { border: 1px solid var(--border-hairline); }
+
+        .surface-elevated {
+            background-color: var(--bg-elevated);
+            border: 1px solid var(--border-hairline);
+            transition: border-color 0.35s ease, background-color 0.35s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .surface-elevated:hover {
+            border-color: var(--border-strong);
+        }
+
+        .surface-glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-hairline);
+        }
+
+        /* Editorial Color Helpers */
+        .text-vermilion { color: var(--accent-vermilion); }
+        .bg-vermilion { background-color: var(--accent-vermilion); }
+        .border-vermilion { border-color: var(--accent-vermilion); }
+        .text-champagne { color: var(--accent-champagne); }
+        .text-secondary-editorial { color: var(--text-secondary); }
+        .text-muted-editorial { color: var(--text-muted); }
+
+        /* Sleek Modern Gradient & Accent Typography */
+        .font-display {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.03em;
+        }
+        .text-gradient-champagne {
+            background: linear-gradient(135deg, #111111 0%, #8C6D3F 60%, #5A4321 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        [data-theme="obsidian"] .text-gradient-champagne {
+            background: linear-gradient(135deg, #FFFDF9 0%, #D9C39E 55%, #B89B67 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-vermilion {
+            background: linear-gradient(135deg, #E02E12 0%, #C7250B 55%, #8C6D3F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        [data-theme="obsidian"] .text-gradient-vermilion {
+            background: linear-gradient(135deg, #FF5B3D 0%, #FF3B1D 55%, #D9C39E 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-outline-sleek {
+            -webkit-text-stroke: 1.5px rgba(17, 17, 17, 0.4);
+            color: transparent;
+            transition: all 0.35s ease;
+        }
+        [data-theme="obsidian"] .text-outline-sleek {
+            -webkit-text-stroke: 1.5px rgba(244, 240, 234, 0.45);
+        }
+        .text-outline-sleek:hover {
+            color: var(--accent-vermilion);
+            -webkit-text-stroke: 1.5px var(--accent-vermilion);
+        }
+        .metric-badge {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.65rem;
+            border-radius: 9999px;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        /* Custom Dual-Ring Magnetic Cursor */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 14px;
+            height: 14px;
+            background: var(--accent-vermilion);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                        height 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                        background-color 0.32s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #custom-cursor.cursor-expanded {
+            width: 88px;
+            height: 88px;
+            background: var(--accent-vermilion);
+            color: #F5F2EB;
+            box-shadow: 0 12px 30px rgba(224, 46, 18, 0.35);
+        }
+        #cursor-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            text-align: center;
+            line-height: 1.1;
+            padding: 4px;
+        }
+        #custom-cursor.cursor-expanded #cursor-label {
+            opacity: 1;
+        }
+        @media (max-width: 1024px) {
+            #custom-cursor { display: none !important; }
+        }
+
+        /* Three.js Studio Sculpture Canvas */
+        #sculpture-canvas-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.92;
+        }
+        @media (max-width: 1024px) {
+            #sculpture-canvas-container {
+                width: 100%;
+                opacity: 0.35;
+            }
+        }
+
+        /* Editorial Preloader Curtain */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2.5rem;
+            background: #F5F2EB;
+            color: #111111;
+        }
+
+        /* Infinite Kinetic Marquee */
+        @keyframes editorialMarquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: editorialMarquee 34s linear infinite;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Experience Ledger Row Hover Effect */
+        .exp-row {
+            position: relative;
+            transition: background-color 0.35s ease, padding-left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .exp-row::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--accent-vermilion);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .exp-row:hover {
+            background-color: var(--bg-subtle);
+        }
+        .exp-row:hover::before {
+            transform: scaleY(1);
+            transform-origin: top;
+        }
+
+        /* Interactive Waveform Bars for Project 01 */
+        @keyframes pulseWave {
+            0%, 100% { transform: scaleY(0.25); }
+            50% { transform: scaleY(1); }
+        }
+        .wave-bar {
+            transform-origin: bottom;
+            animation: pulseWave 1.4s ease-in-out infinite;
+        }
+
+        /* Primary Luxury Button */
+        .btn-vermilion {
+            background-color: var(--accent-vermilion);
+            color: #F5F2EB;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, opacity 0.3s ease;
+        }
+        .btn-vermilion:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px -8px rgba(224, 46, 18, 0.45);
+        }
+
+        .btn-outline-editorial {
+            border: 1px solid var(--border-strong);
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-outline-editorial:hover {
+            border-color: var(--accent-vermilion);
+            background-color: var(--bg-subtle);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Subtle Editorial Film Grain -->
+    <div class="film-grain"></div>
+
+    <!-- Custom Magnetic Cursor -->
+    <div id="custom-cursor">
+        <span id="cursor-label">EXPLORE</span>
+    </div>
+
+    <!-- ================= MINIMALIST EDITORIAL PRELOADER ================= -->
+    <div id="preloader">
+        <div class="flex items-center justify-between font-mono text-xs tracking-widest uppercase text-[#55524D]">
+            <span>SHIVANSH AJMERA ™ // SWISS PAPER EDITION 2026</span>
+            <span>JAIPUR, IN — 26.9124° N, 75.7873° E</span>
+        </div>
+
+        <div class="my-auto">
+            <div class="overflow-hidden">
+                <p class="font-mono text-xs uppercase tracking-[0.25em] text-[#E02E12] mb-3">
+                    INITIALIZING SWISS ARCHITECTURAL ARCHIVE
+                </p>
+            </div>
+            <h1 class="font-display text-4xl sm:text-7xl font-extrabold tracking-tight leading-none text-[#111111]">
+                SHIVANSH <span class="text-gradient-champagne font-light">AJMERA</span>
+            </h1>
+        </div>
+
+        <div class="flex items-end justify-between border-t border-[#111111]/10 pt-6">
+            <div class="font-mono text-xs text-[#55524D] space-y-1">
+                <div>FULL-STACK ENGINEER (MERN STACK)</div>
+                <div id="preloader-task" class="text-[#111111]">Compiling Studio Shader &amp; Typography...</div>
+            </div>
+            <div id="preloader-counter" class="font-display text-5xl sm:text-8xl font-extrabold tracking-tighter text-[#111111] leading-none">
+                00%
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= TOP SWISS ARCHITECTURAL NAVIGATION BAR ================= -->
+    <header class="fixed top-0 left-0 right-0 z-50 surface-glass">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Left: Brand Mark -->
+            <div class="flex items-center gap-6">
+                <a href="#index" class="font-display font-extrabold text-base sm:text-lg tracking-tight flex items-center gap-1.5" data-cursor="TOP">
+                    <span>SHIVANSH</span>
+                    <span class="text-champagne font-medium">AJMERA</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-vermilion"></span>
+                </a>
+                <div class="hidden xl:flex items-center gap-2.5 pl-6 hairline-l text-xs font-mono text-secondary-editorial">
+                    <span class="w-2 h-2 rounded-full bg-[#059669] animate-pulse"></span>
+                    <span>AVAILABLE FOR FULL-STACK ROLES</span>
+                    <span class="text-muted-editorial">|</span>
+                    <span id="jaipur-clock">JPR 00:00:00 IST</span>
+                </div>
+            </div>
+
+            <!-- Center: Editorial Section Links -->
+            <nav class="hidden md:flex items-center gap-7 text-xs font-mono uppercase tracking-wider">
+                <a href="#index" class="hover:text-vermilion transition-colors" data-cursor="INDEX">Index</a>
+                <a href="#works" class="hover:text-vermilion transition-colors flex items-center gap-1" data-cursor="WORKS">
+                    <span>Selected Works</span>
+                    <span class="text-[10px] text-vermilion">(03)</span>
+                </a>
+                <a href="#experience" class="hover:text-vermilion transition-colors" data-cursor="LEDGER">Experience</a>
+                <a href="#capabilities" class="hover:text-vermilion transition-colors" data-cursor="STACK">Capabilities</a>
+                <a href="#contact" class="hover:text-vermilion transition-colors" data-cursor="CONTACT">Contact</a>
+            </nav>
+
+            <!-- Right: Theme Switcher + Resume Drawer Trigger -->
+            <div class="flex items-center gap-2.5">
+                <button id="theme-switcher" class="px-3 py-1.5 rounded-full hairline-box text-[11px] font-mono uppercase tracking-wider flex items-center gap-2 hover:border-[#E02E12] transition-all" data-cursor="THEME">
+                    <span class="w-2 h-2 rounded-full bg-vermilion"></span>
+                    <span id="theme-label">PAPER</span>
+                </button>
+
+                <button id="open-resume-btn" class="hidden sm:inline-flex px-3.5 py-1.5 rounded-full btn-vermilion text-[11px] font-mono uppercase tracking-wider items-center gap-1.5" data-cursor="CV / RESUME">
+                    <span>Resume Dossier</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                </button>
+
+                <button id="mobile-nav-toggle" class="md:hidden w-9 h-9 rounded-full hairline-box flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Architectural Drawer -->
+        <div id="mobile-nav-drawer" class="hidden md:hidden hairline-t px-6 py-5 space-y-3 bg-[var(--bg-elevated)] font-mono text-xs uppercase tracking-wider">
+            <a href="#index" class="mobile-nav-link block py-2 hairline-b">00 / Index</a>
+            <a href="#works" class="mobile-nav-link block py-2 hairline-b">01 / Selected Works (03)</a>
+            <a href="#experience" class="mobile-nav-link block py-2 hairline-b">02 / Experience Ledger</a>
+            <a href="#capabilities" class="mobile-nav-link block py-2 hairline-b">03 / Capabilities &amp; Education</a>
+            <a href="#contact" class="mobile-nav-link block py-2">04 / Contact Studio</a>
+            <button id="mobile-resume-btn" class="w-full py-3 rounded-lg btn-vermilion text-center font-mono text-xs uppercase">
+                Open Full Resume Dossier
+            </button>
+        </div>
+    </header>
+
+    <!-- ================= MAIN EDITORIAL CONTENT ================= -->
+    <main class="relative z-10 pt-16">
+
+        <!-- ================= 00 / HERO SECTION (ASYMMETRIC SWISS GRID + 3D SCULPTURE) ================= -->
+        <section id="index" class="relative min-h-[calc(100vh-4rem)] flex flex-col justify-between hairline-b overflow-hidden">
+            
+            <!-- Studio-Lit Three.js Metallic Twisted Torus Sculpture -->
+            <div id="sculpture-canvas-container"></div>
+
+            <!-- Top Metadata Bar inside Hero -->
+            <div class="max-w-[1440px] w-full mx-auto px-4 sm:px-8 pt-8 pb-4 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-secondary-editorial relative z-10">
+                <div class="flex items-center gap-3">
+                    <span class="px-2 py-0.5 rounded bg-vermilion text-[#F5F2EB] font-semibold">MERN ARCHITECT</span>
+                    <span>MONGODB • EXPRESS • REACT • NODE</span>
+                </div>
+                <div class="hidden sm:block">
+                    <span>COORDINATES: 26.9124° N, 75.7873° E — JAIPUR, INDIA</span>
+                </div>
+            </div>
+
+            <!-- Main Editorial Hero Typography -->
+            <div class="max-w-[1440px] w-full mx-auto px-4 sm:px-8 my-auto py-12 lg:py-16 relative z-10">
+                <div class="max-w-5xl space-y-8">
+                    
+                    <div class="space-y-3">
+                        <div class="hero-reveal overflow-hidden">
+                            <p class="font-mono text-xs sm:text-sm uppercase tracking-[0.22em] text-champagne">
+                                // SHIVANSH AJMERA — FULL-STACK DEVELOPER
+                            </p>
+                        </div>
+
+                        <h1 class="hero-reveal font-display text-4xl sm:text-7xl lg:text-[5.2rem] font-extrabold tracking-tight leading-[1.03]">
+                            Crafting <span class="text-gradient-champagne">Scalable</span><br>
+                            Full-Stack Systems &amp;<br>
+                            <span class="text-gradient-vermilion">Interactive</span> Web<br>
+                            <span class="text-outline-sleek">Experiences.</span>
+                        </h1>
+                    </div>
+
+                    <!-- Editorial Lead Paragraph + Action Controls -->
+                    <div class="hero-reveal grid grid-cols-1 lg:grid-cols-12 gap-8 items-end pt-2">
+                        <p class="lg:col-span-7 text-secondary-editorial text-base sm:text-lg leading-relaxed">
+                            Full-Stack Engineer specializing in the <strong class="text-[var(--text-primary)] font-semibold">MERN Stack</strong>. Proven track record of architecting responsive user interfaces, low-latency RESTful APIs, and optimized database schemas—delivering <span class="text-[var(--text-primary)] underline decoration-[#E02E12] underline-offset-4">30% faster frontend load speeds</span> and <span class="text-[var(--text-primary)] underline decoration-[#8C6D3F] underline-offset-4">25% higher database throughput</span> across production environments.
+                        </p>
+
+                        <div class="lg:col-span-5 flex flex-wrap items-center gap-3">
+                            <a href="#works" class="px-6 py-4 rounded-full btn-vermilion font-mono text-xs uppercase tracking-wider flex items-center gap-3" data-cursor="VIEW WORKS">
+                                <span>Selected Works (03)</span>
+                                <i class="fa-solid fa-arrow-down-long"></i>
+                            </a>
+                            <a href="https://github.com/accountnowe" target="_blank" rel="noopener noreferrer" class="px-6 py-4 rounded-full btn-outline-editorial font-mono text-xs uppercase tracking-wider flex items-center gap-2.5" data-cursor="GITHUB ↗">
+                                <i class="fa-brands fa-github text-sm"></i>
+                                <span>@accountnowe</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Direct Repository Index Strip -->
+                    <div class="hero-reveal pt-4 flex flex-wrap items-center gap-2.5">
+                        <span class="font-mono text-[11px] uppercase tracking-wider text-muted-editorial mr-2">VERIFIED REPOSITORIES:</span>
+                        <a href="https://github.com/accountnowe/jarvis-ai-assistant" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-full hairline-box hover:border-[#E02E12] text-xs font-mono flex items-center gap-2 transition-colors" data-cursor="REPO 01 ↗">
+                            <span class="text-vermilion">01</span>
+                            <span>jarvis-ai-assistant</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-secondary-editorial"></i>
+                        </a>
+                        <a href="https://github.com/accountnowe/majorproject" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-full hairline-box hover:border-[#E02E12] text-xs font-mono flex items-center gap-2 transition-colors" data-cursor="REPO 02 ↗">
+                            <span class="text-champagne">02</span>
+                            <span>majorproject (Room Booking)</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-secondary-editorial"></i>
+                        </a>
+                        <a href="https://github.com/accountnowe/Portfolio" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-full hairline-box hover:border-[#E02E12] text-xs font-mono flex items-center gap-2 transition-colors" data-cursor="REPO 03 ↗">
+                            <span class="text-[#059669]">03</span>
+                            <span>Portfolio</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[9px] text-secondary-editorial"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Architectural Bottom Metrics Strip with Hairline Dividers -->
+            <div class="w-full hairline-t bg-[var(--bg-subtle)] relative z-10">
+                <div class="max-w-[1440px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="p-6 sm:px-8 hairline-r hairline-b lg:border-b-0 flex flex-col justify-between gap-2">
+                        <div class="font-mono text-[11px] text-secondary-editorial uppercase tracking-wider">01 // SHARPNERR IMPACT</div>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight">30%</span>
+                            <span class="metric-badge bg-[#E02E12]/15 text-vermilion border border-[#E02E12]/30">
+                                <i class="fa-solid fa-bolt text-[10px]"></i> Faster Load
+                            </span>
+                        </div>
+                        <p class="text-xs text-secondary-editorial mt-1">Optimized client-server &amp; React architecture</p>
+                    </div>
+
+                    <div class="p-6 sm:px-8 lg:hairline-r hairline-b lg:border-b-0 flex flex-col justify-between gap-2">
+                        <div class="font-mono text-[11px] text-secondary-editorial uppercase tracking-wider">02 // VEDRICZ &amp; MONGODB</div>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight">25%</span>
+                            <span class="metric-badge bg-[#8C6D3F]/15 text-champagne border border-[#8C6D3F]/30">
+                                <i class="fa-solid fa-database text-[10px]"></i> DB Speedup
+                            </span>
+                        </div>
+                        <p class="text-xs text-secondary-editorial mt-1">Schema indexing &amp; backend workflow tuning</p>
+                    </div>
+
+                    <div class="p-6 sm:px-8 hairline-r hairline-b sm:border-b-0 flex flex-col justify-between gap-2">
+                        <div class="font-mono text-[11px] text-secondary-editorial uppercase tracking-wider">03 // WEBGL &amp; VITE</div>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight">&lt;2.0s</span>
+                            <span class="metric-badge bg-[#059669]/15 text-[#059669] border border-[#059669]/30">
+                                <i class="fa-solid fa-gauge-high text-[10px]"></i> Render Time
+                            </span>
+                        </div>
+                        <p class="text-xs text-secondary-editorial mt-1">High-speed 3D visual &amp; interactive builds</p>
+                    </div>
+
+                    <div class="p-6 sm:px-8 flex flex-col justify-between gap-2">
+                        <div class="font-mono text-[11px] text-secondary-editorial uppercase tracking-wider">04 // DESIGN SYSTEMS</div>
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight">10+</span>
+                            <span class="metric-badge bg-[#E02E12]/15 text-vermilion border border-[#E02E12]/30">
+                                <i class="fa-solid fa-layer-group text-[10px]"></i> UI Modules
+                            </span>
+                        </div>
+                        <p class="text-xs text-secondary-editorial mt-1">Reusable production React component libraries</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= INFINITE KINETIC TYPOGRAPHIC MARQUEE RIBBON ================= -->
+        <div class="py-4 bg-vermilion text-[#F5F2EB] overflow-hidden select-none">
+            <div class="marquee-track flex items-center gap-8 font-mono text-xs sm:text-sm font-semibold uppercase tracking-[0.2em]">
+                <span>MONGODB</span><span>✦</span>
+                <span>EXPRESS.JS</span><span>✦</span>
+                <span>REACT.JS</span><span>✦</span>
+                <span>NODE.JS</span><span>✦</span>
+                <span>TYPESCRIPT</span><span>✦</span>
+                <span>JAVASCRIPT (ES6+)</span><span>✦</span>
+                <span>PYTHON</span><span>✦</span>
+                <span>C++ &amp; DATA STRUCTURES</span><span>✦</span>
+                <span>RESTFUL API ARCHITECTURE</span><span>✦</span>
+                <span>MYSQL &amp; SQL</span><span>✦</span>
+                <span>VITE &amp; VERCEL CI/CD</span><span>✦</span>
+                <!-- Seamless Loop Duplicate -->
+                <span>MONGODB</span><span>✦</span>
+                <span>EXPRESS.JS</span><span>✦</span>
+                <span>REACT.JS</span><span>✦</span>
+                <span>NODE.JS</span><span>✦</span>
+                <span>TYPESCRIPT</span><span>✦</span>
+                <span>JAVASCRIPT (ES6+)</span><span>✦</span>
+                <span>PYTHON</span><span>✦</span>
+                <span>C++ &amp; DATA STRUCTURES</span><span>✦</span>
+                <span>RESTFUL API ARCHITECTURE</span><span>✦</span>
+                <span>MYSQL &amp; SQL</span><span>✦</span>
+                <span>VITE &amp; VERCEL CI/CD</span><span>✦</span>
+            </div>
+        </div>
+
+        <!-- ================= 01 / SELECTED WORKS (03) — INTERACTIVE EDITORIAL SHOWCASE ================= -->
+        <section id="works" class="py-24 sm:py-32 px-4 sm:px-8 max-w-[1440px] mx-auto hairline-b">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-8 hairline-b gap-6 reveal-item">
+                <div>
+                    <div class="font-mono text-xs uppercase tracking-[0.2em] text-vermilion mb-2">
+                        01 / CURATED ENGINEERING ARCHIVE
+                    </div>
+                    <h2 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight flex items-baseline gap-3">
+                        <span>Selected</span>
+                        <span class="text-gradient-champagne">Works</span>
+                        <span class="font-mono text-base sm:text-xl text-vermilion font-semibold px-3 py-1 rounded-full hairline-box align-middle">03</span>
+                    </h2>
+                </div>
+                <p class="text-secondary-editorial text-sm sm:text-base max-w-md">
+                    Every project is engineered with full-stack scalability, clean MVC separation, and interactive visual telemetry. Click any repository to inspect the source code on GitHub.
+                </p>
+            </div>
+
+            <!-- Project List -->
+            <div class="space-y-16">
+
+                <!-- ==================== PROJECT 01: JARVIS AI ASSISTANT & INTERVIEW HELPER ==================== -->
+                <article class="surface-elevated rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 reveal-item">
+                    
+                    <!-- Left Column: Editorial Metadata & Story -->
+                    <div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between lg:hairline-r">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between font-mono text-xs">
+                                <span class="text-vermilion font-semibold">INDEX 01 / 03 — AI &amp; VOICE PLATFORM</span>
+                                <span class="text-secondary-editorial">github.com/accountnowe/jarvis-ai-assistant</span>
+                            </div>
+
+                            <h3 class="font-display text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                                Jarvis AI Assistant &amp; <span class="text-gradient-champagne">Interview Helper</span>
+                            </h3>
+
+                            <p class="text-secondary-editorial text-sm sm:text-base leading-relaxed">
+                                Developed an AI-powered assistant and technical interview preparation platform using <strong class="text-[var(--text-primary)]">React.js, Node.js, and REST APIs</strong>. Integrated intelligent evaluation APIs to generate real-time candidate feedback and smart recommendations inside a low-latency, responsive interface.
+                            </p>
+
+                            <!-- Architectural Highlights -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                                <div class="p-4 rounded-xl bg-[var(--bg-subtle)] hairline-box">
+                                    <div class="font-mono text-[10px] uppercase text-champagne">CORE ENGINE</div>
+                                    <div class="text-xs sm:text-sm font-medium mt-1">Intelligent Evaluation APIs &amp; Voice Command Pipeline</div>
+                                </div>
+                                <div class="p-4 rounded-xl bg-[var(--bg-subtle)] hairline-box">
+                                    <div class="font-mono text-[10px] uppercase text-[#059669]">USER EXPERIENCE</div>
+                                    <div class="text-xs sm:text-sm font-medium mt-1">Real-Time Prompt Scoring &amp; Smart Recommendations</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack + Direct GitHub CTA -->
+                        <div class="pt-8 mt-8 hairline-t flex flex-wrap items-center justify-between gap-4">
+                            <div class="flex flex-wrap gap-2 font-mono text-[11px]">
+                                <span class="px-3 py-1 rounded-full hairline-box">React.js</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">Node.js</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">Python / AI</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">REST APIs</span>
+                            </div>
+
+                            <a href="https://github.com/accountnowe/jarvis-ai-assistant" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-full btn-vermilion font-mono text-xs uppercase tracking-wider inline-flex items-center gap-2.5" data-cursor="VIEW REPO ↗">
+                                <i class="fa-brands fa-github"></i>
+                                <span>Inspect Repository</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Bespoke Interactive AI Waveform & Telemetry Preview -->
+                    <div class="lg:col-span-5 bg-[#141417] text-[#F5F2EB] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+                        <div class="flex items-center justify-between font-mono text-[11px] text-[#A39E93] border-b border-white/10 pb-3">
+                            <span class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#E02E12] animate-ping"></span>
+                                <span>JARVIS.EVALUATION.STREAM</span>
+                            </span>
+                            <button onclick="simulateJarvisPrompt()" class="px-2.5 py-1 rounded bg-white/10 hover:bg-[#E02E12] text-[10px] text-white transition-colors">
+                                SIMULATE PROMPT ↻
+                            </button>
+                        </div>
+
+                        <!-- Live Animated Voice Waveform Visualizer -->
+                        <div class="my-6 space-y-5">
+                            <div class="h-24 flex items-end justify-center gap-1.5 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10" id="jarvis-waveform">
+                                <div class="wave-bar w-1.5 bg-[#E02E12] h-10 rounded-full" style="animation-delay: 0.0s"></div>
+                                <div class="wave-bar w-1.5 bg-[#E02E12] h-16 rounded-full" style="animation-delay: 0.15s"></div>
+                                <div class="wave-bar w-1.5 bg-[#8C6D3F] h-8 rounded-full" style="animation-delay: 0.3s"></div>
+                                <div class="wave-bar w-1.5 bg-[#E02E12] h-14 rounded-full" style="animation-delay: 0.1s"></div>
+                                <div class="wave-bar w-1.5 bg-[#F5F2EB] h-6 rounded-full" style="animation-delay: 0.4s"></div>
+                                <div class="wave-bar w-1.5 bg-[#E02E12] h-16 rounded-full" style="animation-delay: 0.25s"></div>
+                                <div class="wave-bar w-1.5 bg-[#8C6D3F] h-12 rounded-full" style="animation-delay: 0.05s"></div>
+                                <div class="wave-bar w-1.5 bg-[#E02E12] h-9 rounded-full" style="animation-delay: 0.35s"></div>
+                                <div class="wave-bar w-1.5 bg-[#059669] h-14 rounded-full" style="animation-delay: 0.2s"></div>
+                                <div class="wave-bar w-1.5 bg-[#8C6D3F] h-7 rounded-full" style="animation-delay: 0.45s"></div>
+                                <div class="wave-bar w-1.5 bg-[#E02E12] h-15 rounded-full" style="animation-delay: 0.12s"></div>
+                                <div class="wave-bar w-1.5 bg-[#F5F2EB] h-9 rounded-full" style="animation-delay: 0.28s"></div>
+                            </div>
+
+                            <!-- Simulated AI Evaluation Console -->
+                            <div class="p-4 rounded-xl bg-black/50 border border-white/10 font-mono text-xs space-y-2" id="jarvis-console">
+                                <div class="text-[#A39E93]">PROMPT: <span id="jarvis-prompt-text" class="text-[#F5F2EB]">"Explain MERN REST API scalability patterns"</span></div>
+                                <div class="flex items-center justify-between text-[11px] pt-1 border-t border-white/10">
+                                    <span class="text-[#059669]" id="jarvis-score">CONFIDENCE SCORE: 96.4%</span>
+                                    <span class="text-[#8C6D3F]" id="jarvis-latency">LATENCY: 42ms</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="https://github.com/accountnowe/jarvis-ai-assistant" target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] text-[#A39E93] hover:text-[#F5F2EB] flex items-center justify-between pt-3 border-t border-white/10">
+                            <span>https://github.com/accountnowe/jarvis-ai-assistant</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- ==================== PROJECT 02: ROOM BOOKING APPLICATION (MAJOR PROJECT) ==================== -->
+                <article class="surface-elevated rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 reveal-item">
+                    
+                    <!-- Left Column: Editorial Metadata & Story -->
+                    <div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between lg:hairline-r">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between font-mono text-xs">
+                                <span class="text-champagne font-semibold">INDEX 02 / 03 — FULL-STACK MERN ENGINE</span>
+                                <span class="text-secondary-editorial">github.com/accountnowe/majorproject</span>
+                            </div>
+
+                            <h3 class="font-display text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                                Room Booking Application <span class="text-gradient-vermilion">(Major Project)</span>
+                            </h3>
+
+                            <p class="text-secondary-editorial text-sm sm:text-base leading-relaxed">
+                                Built a full-stack room reservation and availability platform using the <strong class="text-[var(--text-primary)]">MERN Stack (MongoDB, Express.js, React.js, Node.js)</strong> with real-time availability tracking. Optimized MongoDB schemas and compound queries, improving booking retrieval performance by <strong class="text-[var(--text-primary)]">approximately 25%</strong>.
+                            </p>
+
+                            <!-- Architectural Highlights -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                                <div class="p-4 rounded-xl bg-[var(--bg-subtle)] hairline-box">
+                                    <div class="font-mono text-[10px] uppercase text-vermilion">DATABASE BENCHMARK</div>
+                                    <div class="text-xs sm:text-sm font-medium mt-1">+25% Faster Retrieval via Indexed MongoDB Schemas</div>
+                                </div>
+                                <div class="p-4 rounded-xl bg-[var(--bg-subtle)] hairline-box">
+                                    <div class="font-mono text-[10px] uppercase text-champagne">RESERVATION LOGIC</div>
+                                    <div class="text-xs sm:text-sm font-medium mt-1">Conflict-Free Real-Time Room State Synchronization</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack + Direct GitHub CTA -->
+                        <div class="pt-8 mt-8 hairline-t flex flex-wrap items-center justify-between gap-4">
+                            <div class="flex flex-wrap gap-2 font-mono text-[11px]">
+                                <span class="px-3 py-1 rounded-full hairline-box">MongoDB</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">Express.js</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">React.js</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">Node.js</span>
+                            </div>
+
+                            <a href="https://github.com/accountnowe/majorproject" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-full btn-vermilion font-mono text-xs uppercase tracking-wider inline-flex items-center gap-2.5" data-cursor="VIEW REPO ↗">
+                                <i class="fa-brands fa-github"></i>
+                                <span>Inspect Repository</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Bespoke Interactive Room Availability Matrix & Query Visualizer -->
+                    <div class="lg:col-span-5 bg-[#141417] text-[#F5F2EB] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+                        <div class="flex items-center justify-between font-mono text-[11px] text-[#A39E93] border-b border-white/10 pb-3">
+                            <span>LIVE AVAILABILITY MATRIX (CLICK SUITE)</span>
+                            <span class="text-[#059669]">-25% QUERY TIME</span>
+                        </div>
+
+                        <!-- Interactive Room Matrix -->
+                        <div class="my-6 space-y-4">
+                            <div class="grid grid-cols-3 gap-2.5 font-mono text-xs" id="room-matrix">
+                                <button onclick="toggleRoomSlot(this, 'SUITE 101')" class="p-3 rounded-lg bg-[#059669]/15 border border-[#059669]/40 text-left transition-all hover:scale-[1.02]">
+                                    <div class="text-[10px] text-[#A39E93]">SUITE 101</div>
+                                    <div class="font-semibold text-[#059669] mt-0.5 status-label">AVAILABLE</div>
+                                </button>
+                                <button onclick="toggleRoomSlot(this, 'SUITE 102')" class="p-3 rounded-lg bg-[#E02E12]/15 border border-[#E02E12]/40 text-left transition-all hover:scale-[1.02]">
+                                    <div class="text-[10px] text-[#A39E93]">SUITE 102</div>
+                                    <div class="font-semibold text-[#E02E12] mt-0.5 status-label">RESERVED</div>
+                                </button>
+                                <button onclick="toggleRoomSlot(this, 'SUITE 103')" class="p-3 rounded-lg bg-[#059669]/15 border border-[#059669]/40 text-left transition-all hover:scale-[1.02]">
+                                    <div class="text-[10px] text-[#A39E93]">SUITE 103</div>
+                                    <div class="font-semibold text-[#059669] mt-0.5 status-label">AVAILABLE</div>
+                                </button>
+                                <button onclick="toggleRoomSlot(this, 'SUITE 201')" class="p-3 rounded-lg bg-[#059669]/15 border border-[#059669]/40 text-left transition-all hover:scale-[1.02]">
+                                    <div class="text-[10px] text-[#A39E93]">SUITE 201</div>
+                                    <div class="font-semibold text-[#059669] mt-0.5 status-label">AVAILABLE</div>
+                                </button>
+                                <button onclick="toggleRoomSlot(this, 'SUITE 202')" class="p-3 rounded-lg bg-[#059669]/15 border border-[#059669]/40 text-left transition-all hover:scale-[1.02]">
+                                    <div class="text-[10px] text-[#A39E93]">SUITE 202</div>
+                                    <div class="font-semibold text-[#059669] mt-0.5 status-label">AVAILABLE</div>
+                                </button>
+                                <button onclick="toggleRoomSlot(this, 'SUITE 203')" class="p-3 rounded-lg bg-[#E02E12]/15 border border-[#E02E12]/40 text-left transition-all hover:scale-[1.02]">
+                                    <div class="text-[10px] text-[#A39E93]">SUITE 203</div>
+                                    <div class="font-semibold text-[#E02E12] mt-0.5 status-label">RESERVED</div>
+                                </button>
+                            </div>
+
+                            <div class="p-3.5 rounded-xl bg-black/50 border border-white/10 font-mono text-[11px] flex items-center justify-between">
+                                <span id="booking-log" class="text-[#8C6D3F]">db.bookings.find({ status: "AVAILABLE" }).hint("idx_room_date")</span>
+                                <span class="text-[#059669]">14ms</span>
+                            </div>
+                        </div>
+
+                        <a href="https://github.com/accountnowe/majorproject" target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] text-[#A39E93] hover:text-[#F5F2EB] flex items-center justify-between pt-3 border-t border-white/10">
+                            <span>https://github.com/accountnowe/majorproject</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- ==================== PROJECT 03: INTERACTIVE 3D DEVELOPER PORTFOLIO ==================== -->
+                <article class="surface-elevated rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 reveal-item">
+                    
+                    <!-- Left Column: Editorial Metadata & Story -->
+                    <div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between lg:hairline-r">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between font-mono text-xs">
+                                <span class="text-[#059669] font-semibold">INDEX 03 / 03 — CREATIVE FRONTEND &amp; 3D WEB</span>
+                                <span class="text-secondary-editorial">github.com/accountnowe/Portfolio</span>
+                            </div>
+
+                            <h3 class="font-display text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                                Interactive 3D <span class="text-gradient-champagne">Developer Portfolio</span>
+                            </h3>
+
+                            <p class="text-secondary-editorial text-sm sm:text-base leading-relaxed">
+                                Engineered a modern portfolio website using <strong class="text-[var(--text-primary)]">React.js, TypeScript, and Vite</strong> to showcase projects and full-stack architecture. Implemented interactive animations and 3D visual elements while achieving <strong class="text-[var(--text-primary)]">page load times under 2 seconds</strong> with continuous deployment on GitHub and Vercel.
+                            </p>
+
+                            <!-- Architectural Highlights -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                                <div class="p-4 rounded-xl bg-[var(--bg-subtle)] hairline-box">
+                                    <div class="font-mono text-[10px] uppercase text-[#059669]">PERFORMANCE TELEMETRY</div>
+                                    <div class="text-xs sm:text-sm font-medium mt-1">Sub-2.0 Second First Contentful Paint via Vite Bundling</div>
+                                </div>
+                                <div class="p-4 rounded-xl bg-[var(--bg-subtle)] hairline-box">
+                                    <div class="font-mono text-[10px] uppercase text-champagne">CI/CD PIPELINE</div>
+                                    <div class="text-xs sm:text-sm font-medium mt-1">Automated GitHub + Vercel Zero-Downtime Deployment</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tech Stack + Direct GitHub CTA -->
+                        <div class="pt-8 mt-8 hairline-t flex flex-wrap items-center justify-between gap-4">
+                            <div class="flex flex-wrap gap-2 font-mono text-[11px]">
+                                <span class="px-3 py-1 rounded-full hairline-box">React.js</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">TypeScript</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">Vite</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">3D WebGL</span>
+                                <span class="px-3 py-1 rounded-full hairline-box">Vercel</span>
+                            </div>
+
+                            <a href="https://github.com/accountnowe/Portfolio" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-full btn-vermilion font-mono text-xs uppercase tracking-wider inline-flex items-center gap-2.5" data-cursor="VIEW REPO ↗">
+                                <i class="fa-brands fa-github"></i>
+                                <span>Inspect Repository</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Live 60FPS Telemetry & Load Benchmark Preview -->
+                    <div class="lg:col-span-5 bg-[#141417] text-[#F5F2EB] p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+                        <div class="flex items-center justify-between font-mono text-[11px] text-[#A39E93] border-b border-white/10 pb-3">
+                            <span>VITE + WEBGL TELEMETRY</span>
+                            <span class="text-[#059669]">FCP: 1.42s (&lt;2.0s)</span>
+                        </div>
+
+                        <div class="my-6 space-y-4 font-mono text-xs">
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-[11px]">
+                                    <span class="text-[#A39E93]">BUNDLE OPTIMIZATION (VITE + TS)</span>
+                                    <span class="text-[#059669]">99 / 100</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#059669] w-[99%]"></div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-[11px]">
+                                    <span class="text-[#A39E93]">PAGE LOAD BENCHMARK</span>
+                                    <span class="text-[#8C6D3F]">1.42s / 2.00s TARGET</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-[#8C6D3F] w-[71%]"></div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 pt-2">
+                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                                    <div class="text-[10px] text-[#A39E93]">RENDER TARGET</div>
+                                    <div class="text-lg font-bold text-[#F5F2EB] mt-0.5">60 FPS</div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                                    <div class="text-[10px] text-[#A39E93]">DEPLOYMENT</div>
+                                    <div class="text-lg font-bold text-[#059669] mt-0.5">Vercel Edge</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="https://github.com/accountnowe/Portfolio" target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] text-[#A39E93] hover:text-[#F5F2EB] flex items-center justify-between pt-3 border-t border-white/10">
+                            <span>https://github.com/accountnowe/Portfolio</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ================= 02 / PROFESSIONAL EXPERIENCE — SWISS EDITORIAL LEDGER ================= -->
+        <section id="experience" class="py-24 sm:py-32 px-4 sm:px-8 max-w-[1440px] mx-auto hairline-b">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-8 hairline-b gap-6 reveal-item">
+                <div>
+                    <div class="font-mono text-xs uppercase tracking-[0.2em] text-vermilion mb-2">
+                        02 / VERIFIED INDUSTRY TRACK RECORD
+                    </div>
+                    <h2 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight">
+                        Professional <span class="text-gradient-champagne">Experience</span>
+                    </h2>
+                </div>
+                <div class="font-mono text-xs text-secondary-editorial">
+                    3 INTERNSHIPS • FULL-STACK MERN &amp; FRONTEND SYSTEMS
+                </div>
+            </div>
+
+            <!-- Swiss Hairline Ledger Rows -->
+            <div class="divide-y divide-[var(--border-hairline)] hairline-t hairline-b">
+
+                <!-- Role 01: Sharpnerr Empowerment Limited -->
+                <div class="exp-row py-10 sm:py-12 px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start reveal-item">
+                    <div class="lg:col-span-4 space-y-2">
+                        <div class="flex items-center gap-3 font-mono text-xs">
+                            <span class="text-vermilion font-bold">01</span>
+                            <span class="text-secondary-editorial">05/2026 – 07/2026</span>
+                            <span class="px-2 py-0.5 rounded hairline-box text-[10px]">Gurgaon, India</span>
+                        </div>
+                        <h3 class="font-display text-2xl sm:text-3xl font-extrabold">
+                            Sharpnerr Empowerment Limited
+                        </h3>
+                        <p class="font-accent font-semibold text-base sm:text-lg text-champagne tracking-tight">
+                            Full-Stack Developer Intern (MERN)
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-3 text-sm sm:text-base text-secondary-editorial">
+                        <p class="flex items-start gap-3">
+                            <span class="text-vermilion font-mono text-xs mt-1">—</span>
+                            <span>Engineered end-to-end web applications using <strong class="text-[var(--text-primary)]">React.js, Node.js, Express.js, and MongoDB</strong>.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-vermilion font-mono text-xs mt-1">—</span>
+                            <span>Architected and deployed <strong class="text-[var(--text-primary)]">RESTful APIs</strong>, improving application responsiveness and reliability.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-vermilion font-mono text-xs mt-1">—</span>
+                            <span>Optimized frontend structure and client-server communication, <strong class="text-[var(--text-primary)] underline decoration-[#E02E12]">reducing load times by 30%</strong>.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-vermilion font-mono text-xs mt-1">—</span>
+                            <span>Implemented backend business logic and database integrations for scalable web applications.</span>
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-3 lg:text-right flex flex-col lg:items-end justify-between h-full gap-4">
+                        <div class="inline-block px-4 py-2 rounded-full hairline-box font-mono text-xs text-vermilion">
+                            IMPACT: -30% LOAD TIME
+                        </div>
+                        <div class="flex flex-wrap lg:justify-end gap-1.5 font-mono text-[11px] text-secondary-editorial">
+                            <span>React.js</span><span>•</span><span>Node.js</span><span>•</span><span>Express</span><span>•</span><span>MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role 02: Vedricz Global -->
+                <div class="exp-row py-10 sm:py-12 px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start reveal-item">
+                    <div class="lg:col-span-4 space-y-2">
+                        <div class="flex items-center gap-3 font-mono text-xs">
+                            <span class="text-champagne font-bold">02</span>
+                            <span class="text-secondary-editorial">05/2025 – 07/2025</span>
+                            <span class="px-2 py-0.5 rounded hairline-box text-[10px]">Jaipur, India</span>
+                        </div>
+                        <h3 class="font-display text-2xl sm:text-3xl font-extrabold">
+                            Vedricz Global
+                        </h3>
+                        <p class="font-accent font-semibold text-base sm:text-lg text-champagne tracking-tight">
+                            Full-Stack Developer Intern (MERN Stack)
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-3 text-sm sm:text-base text-secondary-editorial">
+                        <p class="flex items-start gap-3">
+                            <span class="text-champagne font-mono text-xs mt-1">—</span>
+                            <span>Developed full-stack web applications using <strong class="text-[var(--text-primary)]">React.js, Node.js, Express.js, and MongoDB</strong>.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-champagne font-mono text-xs mt-1">—</span>
+                            <span>Built and integrated RESTful APIs to support scalable frontend-backend communication.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-champagne font-mono text-xs mt-1">—</span>
+                            <span>Developed <strong class="text-[var(--text-primary)]">10+ reusable React components</strong>, improving code maintainability and development efficiency.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-champagne font-mono text-xs mt-1">—</span>
+                            <span>Optimized database operations and backend workflows, <strong class="text-[var(--text-primary)] underline decoration-[#8C6D3F]">improving application performance by ~25%</strong>.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-champagne font-mono text-xs mt-1">—</span>
+                            <span>Implemented responsive UIs across desktop and mobile devices and participated in testing, debugging, and deployment.</span>
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-3 lg:text-right flex flex-col lg:items-end justify-between h-full gap-4">
+                        <div class="inline-block px-4 py-2 rounded-full hairline-box font-mono text-xs text-champagne">
+                            IMPACT: +25% DB &amp; API SPEED
+                        </div>
+                        <div class="flex flex-wrap lg:justify-end gap-1.5 font-mono text-[11px] text-secondary-editorial">
+                            <span>10+ UI Modules</span><span>•</span><span>REST APIs</span><span>•</span><span>MERN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role 03: SKIT -->
+                <div class="exp-row py-10 sm:py-12 px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start reveal-item">
+                    <div class="lg:col-span-4 space-y-2">
+                        <div class="flex items-center gap-3 font-mono text-xs">
+                            <span class="text-[#059669] font-bold">03</span>
+                            <span class="text-secondary-editorial">07/2024 – 08/2024</span>
+                            <span class="px-2 py-0.5 rounded hairline-box text-[10px]">Remote</span>
+                        </div>
+                        <h3 class="font-display text-2xl sm:text-3xl font-extrabold">
+                            SKIT
+                        </h3>
+                        <p class="font-accent font-semibold text-base sm:text-lg text-champagne tracking-tight">
+                            Frontend Developer Intern
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-3 text-sm sm:text-base text-secondary-editorial">
+                        <p class="flex items-start gap-3">
+                            <span class="text-[#059669] font-mono text-xs mt-1">—</span>
+                            <span>Developed responsive user interfaces using <strong class="text-[var(--text-primary)]">HTML5, CSS3, and JavaScript</strong>.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-[#059669] font-mono text-xs mt-1">—</span>
+                            <span>Enhanced UI/UX design, improving usability, visual hierarchy, and user engagement.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <span class="text-[#059669] font-mono text-xs mt-1">—</span>
+                            <span>Ensured cross-browser compatibility and consistent performance across mobile and desktop devices.</span>
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-3 lg:text-right flex flex-col lg:items-end justify-between h-full gap-4">
+                        <div class="inline-block px-4 py-2 rounded-full hairline-box font-mono text-xs text-[#059669]">
+                            UI/UX &amp; CROSS-BROWSER
+                        </div>
+                        <div class="flex flex-wrap lg:justify-end gap-1.5 font-mono text-[11px] text-secondary-editorial">
+                            <span>HTML5</span><span>•</span><span>CSS3</span><span>•</span><span>JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= 03 / CAPABILITIES, TECHNICAL MATRIX & EDUCATION BENTO GRID ================= -->
+        <section id="capabilities" class="py-24 sm:py-32 px-4 sm:px-8 max-w-[1440px] mx-auto hairline-b">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-8 hairline-b gap-6 reveal-item">
+                <div>
+                    <div class="font-mono text-xs uppercase tracking-[0.2em] text-vermilion mb-2">
+                        03 / TECHNICAL SPECIFICATION &amp; ACADEMICS
+                    </div>
+                    <h2 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight">
+                        Engineering <span class="text-gradient-champagne">Capabilities</span>
+                    </h2>
+                </div>
+                <p class="text-secondary-editorial text-sm sm:text-base max-w-md">
+                    A comprehensive specification of programming languages, MERN stack architecture, database optimization tools, and academic foundation.
+                </p>
+            </div>
+
+            <!-- Architectural Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+
+                <!-- 1. Languages -->
+                <div class="lg:col-span-4 surface-elevated rounded-2xl p-8 flex flex-col justify-between reveal-item">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs text-vermilion mb-4">
+                            <span>01 // LANGUAGES</span>
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold mb-2">Core Languages</h3>
+                        <p class="text-xs text-secondary-editorial mb-6">Type-safe application logic, algorithmic problem solving, and structured queries.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">JavaScript (ES6+)</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">TypeScript</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">Python</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">C++</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">SQL</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">HTML5 &amp; CSS3</span>
+                    </div>
+                </div>
+
+                <!-- 2. Frontend Architecture -->
+                <div class="lg:col-span-4 surface-elevated rounded-2xl p-8 flex flex-col justify-between reveal-item">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs text-champagne mb-4">
+                            <span>02 // FRONTEND SYSTEMS</span>
+                            <i class="fa-brands fa-react"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold mb-2">Frontend Engineering</h3>
+                        <p class="text-xs text-secondary-editorial mb-6">Component-driven interfaces, responsive layouts, and sub-2-second Vite builds.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">React.js</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">Vite</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">Responsive Design</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">UI/UX Design</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">Cross-Browser Compatibility</span>
+                    </div>
+                </div>
+
+                <!-- 3. Backend & Databases -->
+                <div class="lg:col-span-4 surface-elevated rounded-2xl p-8 flex flex-col justify-between reveal-item">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs text-[#059669] mb-4">
+                            <span>03 // BACKEND &amp; DATA</span>
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold mb-2">Backend &amp; Databases</h3>
+                        <p class="text-xs text-secondary-editorial mb-6">RESTful API design, MVC patterns, authentication, and high-throughput indexing.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">Node.js</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">Express.js</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">RESTful APIs</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">MVC Architecture</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">Auth &amp; Authorization</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">MongoDB</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-[var(--bg-subtle)] hairline-box">MySQL</span>
+                    </div>
+                </div>
+
+                <!-- 4. Tools, Platforms & Core Concepts -->
+                <div class="lg:col-span-5 surface-elevated rounded-2xl p-8 flex flex-col justify-between reveal-item">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs text-secondary-editorial mb-4">
+                            <span>04 // WORKFLOW &amp; PLATFORMS</span>
+                            <i class="fa-solid fa-compass-drafting"></i>
+                        </div>
+                        <h3 class="font-display text-2xl font-bold mb-2">Tools &amp; Core Concepts</h3>
+                        <p class="text-xs text-secondary-editorial mb-6">Production CI/CD pipelines, API testing, analytics, and Agile engineering practices.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">Git &amp; GitHub</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">Vercel</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">Postman</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">VS Code</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">Power BI</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">MS Excel &amp; PowerPoint</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">Data Structures</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">Agile Methodology</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-[var(--bg-subtle)] hairline-box">Debugging &amp; Testing</span>
+                    </div>
+                </div>
+
+                <!-- 5. Education & Soft Skills Card -->
+                <div class="lg:col-span-7 surface-elevated rounded-2xl p-8 sm:p-10 flex flex-col justify-between reveal-item">
+                    <div class="flex flex-wrap items-start justify-between gap-4 mb-6">
+                        <div>
+                            <div class="font-mono text-xs text-vermilion uppercase mb-2">05 // ACADEMIC INSTITUTION</div>
+                            <h3 class="font-display text-2xl sm:text-3xl font-extrabold">
+                                Swami Keshavanand Institute of Technology (SKIT)
+                            </h3>
+                            <p class="font-accent font-semibold text-base sm:text-lg text-champagne mt-1">
+                                Bachelor of Technology in Information Technology
+                            </p>
+                        </div>
+                        <div class="px-4 py-2 rounded-full hairline-box font-mono text-xs text-secondary-editorial">
+                            08/2023 – 06/2027 (Expected) • Jaipur, India
+                        </div>
+                    </div>
+
+                    <div class="pt-6 hairline-t">
+                        <div class="font-mono text-[11px] text-secondary-editorial uppercase mb-3">CORE INTERPERSONAL &amp; LEADERSHIP ATTRIBUTES</div>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs">
+                            <span class="px-3.5 py-1.5 rounded-full hairline-box text-champagne">Problem Solving</span>
+                            <span class="px-3.5 py-1.5 rounded-full hairline-box">Team Collaboration</span>
+                            <span class="px-3.5 py-1.5 rounded-full hairline-box">Communication</span>
+                            <span class="px-3.5 py-1.5 rounded-full hairline-box">Time Management</span>
+                            <span class="px-3.5 py-1.5 rounded-full hairline-box">Adaptability</span>
+                            <span class="px-3.5 py-1.5 rounded-full hairline-box">Critical Thinking</span>
+                            <span class="px-3.5 py-1.5 rounded-full hairline-box text-[#059669]">Quick Learner</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= 04 / MONUMENTAL FOOTER & DIRECT CONTACT STUDIO ================= -->
+        <section id="contact" class="py-24 sm:py-32 px-4 sm:px-8 max-w-[1440px] mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left Column: Monumental Typography & One-Click Copy Channels -->
+                <div class="lg:col-span-7 space-y-8 reveal-item">
+                    <div class="font-mono text-xs uppercase tracking-[0.2em] text-vermilion">
+                        04 / INITIATE DIALOGUE
+                    </div>
+
+                    <h2 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.04]">
+                        Let’s Build <br>
+                        Something <span class="text-gradient-champagne">Extraordinary.</span>
+                    </h2>
+
+                    <p class="text-secondary-editorial text-base sm:text-lg max-w-xl">
+                        Available for full-stack developer roles, software engineering internships, and high-impact MERN collaborations. Click below to copy contact credentials or dispatch a direct message.
+                    </p>
+
+                    <!-- Direct Copy Credential Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <button onclick="copyCredential('shivanshajmera5@gmail.com', 'Email address copied to clipboard')" class="surface-elevated p-5 rounded-2xl text-left group flex items-center justify-between" data-cursor="COPY EMAIL">
+                            <div class="overflow-hidden">
+                                <div class="font-mono text-[10px] uppercase text-secondary-editorial">DIRECT EMAIL</div>
+                                <div class="font-mono text-xs sm:text-sm font-semibold mt-1 truncate group-hover:text-vermilion transition-colors">
+                                    shivanshajmera5@gmail.com
+                                </div>
+                            </div>
+                            <i class="fa-regular fa-copy text-secondary-editorial group-hover:text-vermilion transition-colors ml-3"></i>
+                        </button>
+
+                        <button onclick="copyCredential('+91-7878729365', 'Phone number copied to clipboard')" class="surface-elevated p-5 rounded-2xl text-left group flex items-center justify-between" data-cursor="COPY PHONE">
+                            <div>
+                                <div class="font-mono text-[10px] uppercase text-secondary-editorial">DIRECT PHONE / IN</div>
+                                <div class="font-mono text-xs sm:text-sm font-semibold mt-1 group-hover:text-vermilion transition-colors">
+                                    +91-7878729365
+                                </div>
+                            </div>
+                            <i class="fa-regular fa-copy text-secondary-editorial group-hover:text-vermilion transition-colors ml-3"></i>
+                        </button>
+                    </div>
+
+                    <!-- Complete Verified Links Directory -->
+                    <div class="pt-4 space-y-3">
+                        <div class="font-mono text-[11px] uppercase tracking-wider text-secondary-editorial">COMPLETE REPOSITORY &amp; PROFILE DIRECTORY:</div>
+                        <div class="flex flex-wrap gap-3 font-mono text-xs">
+                            <a href="https://github.com/accountnowe" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-full hairline-box hover:border-[#E02E12] flex items-center gap-2 transition-colors" data-cursor="GITHUB ↗">
+                                <i class="fa-brands fa-github text-vermilion"></i>
+                                <span>github.com/accountnowe</span>
+                            </a>
+                            <a href="https://github.com/accountnowe/jarvis-ai-assistant" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-full hairline-box hover:border-[#E02E12] flex items-center gap-2 transition-colors" data-cursor="JARVIS ↗">
+                                <span>jarvis-ai-assistant</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                            </a>
+                            <a href="https://github.com/accountnowe/majorproject" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-full hairline-box hover:border-[#E02E12] flex items-center gap-2 transition-colors" data-cursor="BOOKING ↗">
+                                <span>majorproject</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                            </a>
+                            <a href="https://github.com/accountnowe/Portfolio" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-full hairline-box hover:border-[#E02E12] flex items-center gap-2 transition-colors" data-cursor="PORTFOLIO ↗">
+                                <span>Portfolio</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Editorial Inquiry Dispatch Form -->
+                <div class="lg:col-span-5 surface-elevated rounded-2xl p-8 sm:p-10 reveal-item">
+                    <div class="flex items-center justify-between font-mono text-xs text-secondary-editorial pb-4 mb-6 hairline-b">
+                        <span>DIRECT DISPATCH (GOOGLE SHEETS)</span>
+                        <span class="text-vermilion" id="form-status-indicator">READY</span>
+                    </div>
+
+                    <form id="editorial-contact-form" class="space-y-5">
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase text-secondary-editorial mb-2">01 / YOUR NAME OR ORGANIZATION</label>
+                            <input type="text" id="form-name" required placeholder="e.g. Hiring Team / Tech Lead" class="w-full px-4 py-3.5 rounded-xl bg-[var(--bg-subtle)] hairline-box text-sm focus:outline-none focus:border-[#E02E12] transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase text-secondary-editorial mb-2">02 / RETURN EMAIL ADDRESS</label>
+                            <input type="email" id="form-email" required placeholder="name@company.com" class="w-full px-4 py-3.5 rounded-xl bg-[var(--bg-subtle)] hairline-box text-sm focus:outline-none focus:border-[#E02E12] transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block font-mono text-[11px] uppercase text-secondary-editorial mb-2">03 / PROJECT OR ROLE BRIEF</label>
+                            <textarea id="form-message" rows="4" required placeholder="Hello Shivansh, we would love to discuss a Full-Stack MERN role..." class="w-full px-4 py-3.5 rounded-xl bg-[var(--bg-subtle)] hairline-box text-sm focus:outline-none focus:border-[#E02E12] transition-colors"></textarea>
+                        </div>
+
+                        <!-- Hidden Google Apps Script Web App URL input -->
+                        <div class="hidden">
+                            <input type="text" id="google-script-url" value="https://script.google.com/macros/s/AKfycbwXjilnlI6QqySKcg9aMI_V6ZJuLtsBhGJSmkW-qNGUoXM_F5OHCAhyrwZZgJC6mp27/exec">
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="w-full py-4 rounded-full btn-vermilion font-mono text-xs uppercase tracking-widest flex items-center justify-center gap-3" data-cursor="DISPATCH ↗">
+                            <span id="submit-btn-text">Submit</span>
+                            <i class="fa-solid fa-arrow-right" id="submit-icon"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= ARCHITECTURAL COLOPHON FOOTER ================= -->
+    <footer class="hairline-t py-8 px-4 sm:px-8">
+        <div class="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-secondary-editorial">
+            <div>
+                © 2026 SHIVANSH AJMERA ™ — ALL RIGHTS RESERVED.
+            </div>
+            <div class="flex items-center gap-6">
+                <span>TYPOGRAPHY: OUTFIT, SPACE GROTESK &amp; PLUS JAKARTA</span>
+                <a href="#index" class="text-vermilion hover:underline">BACK TO TOP ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= INTERACTIVE RESUME DOSSIER DRAWER / MODAL ================= -->
+    <div id="resume-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md">
+        <div class="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[#141417] text-[#F5F2EB] border border-white/15 rounded-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
+                <div>
+                    <span class="font-mono text-xs text-[#E02E12] uppercase tracking-widest">VERIFIED CURRICULUM VITAE</span>
+                    <h3 class="font-display text-2xl sm:text-4xl font-extrabold mt-1">SHIVANSH AJMERA</h3>
+                    <p class="font-mono text-xs text-[#A39E93] mt-1">Full-Stack Developer (MERN Stack) • Jaipur, India • +91-7878729365 • shivanshajmera5@gmail.com</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="https://github.com/accountnowe" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/15 font-mono text-xs">
+                        GitHub Profile ↗
+                    </a>
+                    <button id="close-resume-btn" class="px-4 py-2 rounded-full bg-[#E02E12] text-white font-mono text-xs uppercase">
+                        Close [ESC]
+                    </button>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="space-y-2">
+                <div class="font-mono text-xs text-[#8C6D3F] uppercase">PROFESSIONAL SUMMARY</div>
+                <p class="text-sm text-[#A39E93] leading-relaxed">
+                    Full-Stack Developer with hands-on experience building scalable web applications using the MERN Stack (MongoDB, Express.js, React.js, Node.js). Skilled in responsive user interfaces, RESTful API design, and backend systems for performance and scalability. Experienced in database management and Agile workflows, with a focus on efficient, user-centric software.
+                </p>
+            </div>
+
+            <!-- Experience Summary -->
+            <div class="space-y-4">
+                <div class="font-mono text-xs text-[#8C6D3F] uppercase">PROFESSIONAL EXPERIENCE</div>
+                <div class="space-y-4 text-xs sm:text-sm">
+                    <div class="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                        <div class="flex justify-between font-bold text-white">
+                            <span>Full-Stack Developer Intern (MERN) — Sharpnerr Empowerment Limited</span>
+                            <span class="font-mono text-[#E02E12]">05/2026 – 07/2026 | Gurgaon</span>
+                        </div>
+                        <p class="text-[#A39E93] mt-1">Engineered end-to-end MERN web applications, architected RESTful APIs, and optimized client-server communication reducing load times by 30%.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                        <div class="flex justify-between font-bold text-white">
+                            <span>Full-Stack Developer Intern (MERN Stack) — Vedricz Global</span>
+                            <span class="font-mono text-[#8C6D3F]">05/2025 – 07/2025 | Jaipur</span>
+                        </div>
+                        <p class="text-[#A39E93] mt-1">Built 10+ reusable React components, integrated RESTful APIs, and optimized MongoDB operations improving application performance by ~25%.</p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white/[0.03] border border-white/10">
+                        <div class="flex justify-between font-bold text-white">
+                            <span>Frontend Developer Intern — SKIT</span>
+                            <span class="font-mono text-[#059669]">07/2024 – 08/2024 | Remote</span>
+                        </div>
+                        <p class="text-[#A39E93] mt-1">Developed responsive user interfaces using HTML5, CSS3, and JavaScript ensuring cross-browser compatibility.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Direct Repositories -->
+            <div class="space-y-3">
+                <div class="font-mono text-xs text-[#8C6D3F] uppercase">FEATURED PROJECTS &amp; REPOSITORIES</div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
+                    <a href="https://github.com/accountnowe/jarvis-ai-assistant" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl bg-white/5 hover:border-[#E02E12] border border-white/10 block">
+                        <div class="text-[#E02E12]">01 / AI &amp; REST API</div>
+                        <div class="font-bold text-white mt-1">Jarvis AI Assistant</div>
+                        <div class="text-[11px] text-[#A39E93] mt-1 truncate">github.com/accountnowe/jarvis-ai-assistant</div>
+                    </a>
+                    <a href="https://github.com/accountnowe/majorproject" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl bg-white/5 hover:border-[#E02E12] border border-white/10 block">
+                        <div class="text-[#8C6D3F]">02 / MERN STACK</div>
+                        <div class="font-bold text-white mt-1">Room Booking App</div>
+                        <div class="text-[11px] text-[#A39E93] mt-1 truncate">github.com/accountnowe/majorproject</div>
+                    </a>
+                    <a href="https://github.com/accountnowe/Portfolio" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-xl bg-white/5 hover:border-[#E02E12] border border-white/10 block">
+                        <div class="text-[#059669]">03 / 3D WEB &amp; VITE</div>
+                        <div class="font-bold text-white mt-1">3D Portfolio</div>
+                        <div class="text-[11px] text-[#A39E93] mt-1 truncate">github.com/accountnowe/Portfolio</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Editorial Toast Notification -->
+    <div id="editorial-toast" class="fixed bottom-6 right-6 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300 bg-[#EBE6DC] text-[#111111] border border-[#E02E12] px-5 py-3.5 rounded-full flex items-center gap-3 shadow-2xl font-mono text-xs">
+        <span class="w-2 h-2 rounded-full bg-[#E02E12]"></span>
+        <span id="editorial-toast-text">Copied to clipboard</span>
+    </div>
+
+    <!-- ================= SCRIPTS: STUDIO 3D SCULPTURE, GSAP & INTERACTIONS ================= -->
+    <script>
+        /* --------------------------------------------------------------------------
+         * 1. CLIPBOARD & TOAST FEEDBACK
+         * -------------------------------------------------------------------------- */
+        function showEditorialToast(msg) {
+            const toast = document.getElementById('editorial-toast');
+            const text = document.getElementById('editorial-toast-text');
+            text.textContent = msg;
+            toast.classList.remove('opacity-0', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-4');
+            }, 2600);
+        }
+
+        function copyCredential(value, msg) {
+            const input = document.createElement('textarea');
+            input.value = value;
+            document.body.appendChild(input);
+            input.select();
+            try {
+                document.execCommand('copy');
+                showEditorialToast(msg);
+            } catch (e) {
+                showEditorialToast('Please copy manually: ' + value);
+            }
+            document.body.removeChild(input);
+        }
+
+        /* --------------------------------------------------------------------------
+         * 2. LIVE JAIPUR IST CLOCK
+         * -------------------------------------------------------------------------- */
+        function startJaipurClock() {
+            const clockEl = document.getElementById('jaipur-clock');
+            function updateClock() {
+                const now = new Date();
+                const options = {
+                    timeZone: 'Asia/Kolkata',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                };
+                const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
+                if (clockEl) clockEl.textContent = `JPR ${timeString} IST`;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        /* --------------------------------------------------------------------------
+         * 3. STUDIO-LIT THREE.JS BRUSHED METALLIC RIBBON SCULPTURE
+         * -------------------------------------------------------------------------- */
+        function initStudioSculpture() {
+            const container = document.getElementById('sculpture-canvas-container');
+            if (!container || typeof THREE === 'undefined') return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.set(0, 0, 13.5);
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Studio Lighting Setup (Warm Champagne Key Light + Vermilion Rim Light + Cool Fill)
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
+            scene.add(ambientLight);
+
+            const keyLight = new THREE.DirectionalLight(0x8C6D3F, 2.2);
+            keyLight.position.set(6, 8, 7);
+            scene.add(keyLight);
+
+            const rimLight = new THREE.PointLight(0xE02E12, 2.8, 25);
+            rimLight.position.set(-6, -4, 4);
+            scene.add(rimLight);
+
+            const fillLight = new THREE.DirectionalLight(0x55524D, 1.1);
+            fillLight.position.set(0, -7, -5);
+            scene.add(fillLight);
+
+            // High-segment sculptural TorusKnot with brushed metallic physical material
+            const geometry = new THREE.TorusKnotGeometry(2.65, 0.72, 220, 48, 2, 3);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0xD6D0C4,
+                metalness: 0.65,
+                roughness: 0.28,
+            });
+            const sculpture = new THREE.Mesh(geometry, material);
+            scene.add(sculpture);
+
+            // Subtle architectural wireframe shell around the sculpture
+            const wireMat = new THREE.MeshBasicMaterial({
+                color: 0x111111,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.055
+            });
+            const wireShell = new THREE.Mesh(geometry, wireMat);
+            wireShell.scale.setScalar(1.015);
+            sculpture.add(wireShell);
+
+            // Expose material adjustment when toggling Paper / Obsidian theme
+            window.setSculptureTheme = (mode) => {
+                if (mode === 'obsidian') {
+                    material.color.setHex(0x1e1e24);
+                    material.metalness = 0.88;
+                    material.roughness = 0.22;
+                    wireMat.color.setHex(0xD9C39E);
+                } else {
+                    material.color.setHex(0xD6D0C4);
+                    material.metalness = 0.65;
+                    material.roughness = 0.28;
+                    wireMat.color.setHex(0x111111);
+                }
+            };
+
+            let targetX = 0;
+            let targetY = 0;
+            window.addEventListener('mousemove', (e) => {
+                targetX = (e.clientX / window.innerWidth - 0.5) * 1.2;
+                targetY = (e.clientY / window.innerHeight - 0.5) * 1.2;
+            });
+
+            window.addEventListener('resize', () => {
+                if (!container.clientWidth || !container.clientHeight) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+
+            function animateSculpture() {
+                requestAnimationFrame(animateSculpture);
+                sculpture.rotation.x += 0.0025;
+                sculpture.rotation.y += 0.0035;
+
+                // Gentle physics interpolation
+                sculpture.rotation.x += (targetY - sculpture.rotation.x) * 0.02;
+                sculpture.rotation.y += (targetX - sculpture.rotation.y) * 0.02;
+
+                renderer.render(scene, camera);
+            }
+            animateSculpture();
+        }
+
+        /* --------------------------------------------------------------------------
+         * 4. INTERACTIVE PROJECT CARD WIDGETS (JARVIS AI & ROOM MATRIX)
+         * -------------------------------------------------------------------------- */
+        const samplePrompts = [
+            { q: '"Explain MERN REST API scalability patterns"', score: '96.4%', latency: '42ms' },
+            { q: '"Optimize MongoDB compound index for bookings"', score: '98.1%', latency: '31ms' },
+            { q: '"Design JWT authentication middleware in Node.js"', score: '95.8%', latency: '38ms' },
+            { q: '"Reduce React Vite bundle hydration below 2.0s"', score: '99.0%', latency: '27ms' }
+        ];
+        let promptIdx = 0;
+
+        function simulateJarvisPrompt() {
+            promptIdx = (promptIdx + 1) % samplePrompts.length;
+            const item = samplePrompts[promptIdx];
+            document.getElementById('jarvis-prompt-text').textContent = item.q;
+            document.getElementById('jarvis-score').textContent = `CONFIDENCE SCORE: ${item.score}`;
+            document.getElementById('jarvis-latency').textContent = `LATENCY: ${item.latency}`;
+            showEditorialToast('Simulated AI Evaluation Prompt');
+        }
+
+        function toggleRoomSlot(btn, suiteName) {
+            const label = btn.querySelector('.status-label');
+            const isAvailable = label.textContent.trim() === 'AVAILABLE';
+            if (isAvailable) {
+                label.textContent = 'RESERVED';
+                label.className = 'font-semibold text-[#E02E12] mt-0.5 status-label';
+                btn.className = 'p-3 rounded-lg bg-[#E02E12]/15 border border-[#E02E12]/40 text-left transition-all hover:scale-[1.02]';
+                document.getElementById('booking-log').textContent = `db.bookings.updateOne({ room: "${suiteName}" }, { $set: { status: "RESERVED" } })`;
+            } else {
+                label.textContent = 'AVAILABLE';
+                label.className = 'font-semibold text-[#059669] mt-0.5 status-label';
+                btn.className = 'p-3 rounded-lg bg-[#059669]/15 border border-[#059669]/40 text-left transition-all hover:scale-[1.02]';
+                document.getElementById('booking-log').textContent = `db.bookings.updateOne({ room: "${suiteName}" }, { $set: { status: "AVAILABLE" } })`;
+            }
+        }
+
+        /* --------------------------------------------------------------------------
+         * 5. PRELOADER, GSAP CHOREOGRAPHY & UI LISTENERS
+         * -------------------------------------------------------------------------- */
+        function initEditorialPortfolio() {
+            // Ensure paper theme is explicitly set on initial load
+            document.documentElement.setAttribute('data-theme', 'paper');
+            const themeLabel = document.getElementById('theme-label');
+            if (themeLabel) themeLabel.textContent = 'PAPER';
+
+            const counterEl = document.getElementById('preloader-counter');
+            const preloaderEl = document.getElementById('preloader');
+            let count = 0;
+
+            const timer = setInterval(() => {
+                count += Math.floor(Math.random() * 18) + 11;
+                if (count >= 100) {
+                    count = 100;
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        gsap.to(preloaderEl, {
+                            yPercent: -100,
+                            duration: 0.95,
+                            ease: 'power4.inOut',
+                            onComplete: () => {
+                                preloaderEl.style.display = 'none';
+                                runScrollAnimations();
+                            }
+                        });
+                    }, 180);
+                }
+                counterEl.textContent = (count < 10 ? '0' : '') + count + '%';
+            }, 55);
+        }
+
+        function runScrollAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.from('.hero-reveal', {
+                y: 48,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.14,
+                ease: 'power3.out'
+            });
+
+            gsap.utils.toArray('.reveal-item').forEach((item) => {
+                gsap.from(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 86%',
+                        toggleActions: 'play none none none'
+                    },
+                    y: 36,
+                    opacity: 0,
+                    duration: 0.85,
+                    ease: 'power3.out'
+                });
+            });
+        }
+
+        function setupEventListeners() {
+            // Custom Magnetic Cursor
+            const cursor = document.getElementById('custom-cursor');
+            const cursorLabel = document.getElementById('cursor-label');
+
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+            });
+
+            document.querySelectorAll('[data-cursor]').forEach((el) => {
+                el.addEventListener('mouseenter', () => {
+                    cursorLabel.textContent = el.getAttribute('data-cursor');
+                    cursor.classList.add('cursor-expanded');
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('cursor-expanded');
+                });
+            });
+
+            // Swiss Paper / Obsidian Theme Switcher
+            const themeBtn = document.getElementById('theme-switcher');
+            const themeLabel = document.getElementById('theme-label');
+            themeBtn.addEventListener('click', () => {
+                const html = document.documentElement;
+                const current = html.getAttribute('data-theme');
+                const next = current === 'paper' ? 'obsidian' : 'paper';
+                html.setAttribute('data-theme', next);
+                themeLabel.textContent = next.toUpperCase();
+                if (window.setSculptureTheme) window.setSculptureTheme(next);
+                showEditorialToast(next === 'obsidian' ? 'Obsidian Dark Mode Active' : 'Swiss Paper Light Mode Active');
+            });
+
+            // Resume Modal Controls
+            const resumeModal = document.getElementById('resume-modal');
+            const openResumeBtn = document.getElementById('open-resume-btn');
+            const mobileResumeBtn = document.getElementById('mobile-resume-btn');
+            const closeResumeBtn = document.getElementById('close-resume-btn');
+
+            function openResume() {
+                resumeModal.classList.remove('hidden');
+                resumeModal.classList.add('flex');
+            }
+            function closeResume() {
+                resumeModal.classList.add('hidden');
+                resumeModal.classList.remove('flex');
+            }
+            if (openResumeBtn) openResumeBtn.addEventListener('click', openResume);
+            if (mobileResumeBtn) mobileResumeBtn.addEventListener('click', openResume);
+            if (closeResumeBtn) closeResumeBtn.addEventListener('click', closeResume);
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeResume();
+            });
+
+            // Mobile Navigation Drawer
+            const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+            const mobileNavDrawer = document.getElementById('mobile-nav-drawer');
+            mobileNavToggle.addEventListener('click', () => {
+                mobileNavDrawer.classList.toggle('hidden');
+            });
+            document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+                link.addEventListener('click', () => mobileNavDrawer.classList.add('hidden'));
+            });
+
+            // Google Sheets Form Submission Handler
+            const contactForm = document.getElementById('editorial-contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('form-name').value.trim();
+                    const email = document.getElementById('form-email').value.trim();
+                    const message = document.getElementById('form-message').value.trim();
+                    const scriptUrlInput = document.getElementById('google-script-url').value.trim();
+
+                    const submitBtn = document.getElementById('submit-btn');
+                    const btnText = document.getElementById('submit-btn-text');
+                    const statusIndicator = document.getElementById('form-status-indicator');
+
+                    // Check if URL is configured
+                    if (!scriptUrlInput || scriptUrlInput.includes('YOUR_GOOGLE_APPS_SCRIPT')) {
+                        const subject = encodeURIComponent(`Portfolio Inquiry — ${name}`);
+                        const body = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
+                        window.location.href = `mailto:shivanshajmera5@gmail.com?subject=${subject}&body=${body}`;
+                        showEditorialToast('Opening mail client (Configure Apps Script URL for Google Sheets)');
+                        return;
+                    }
+
+                    // UI Loading State
+                    submitBtn.disabled = true;
+                    btnText.textContent = 'Transmitting to Shivansh...';
+                    statusIndicator.textContent = 'SYNCING';
+                    statusIndicator.className = 'text-champagne';
+
+                    try {
+                        const response = await fetch(scriptUrlInput, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ name, email, message, timestamp: new Date().toISOString() })
+                        });
+
+                        showEditorialToast('Successfully Sent');
+                        statusIndicator.textContent = 'STORED ✓';
+                        statusIndicator.className = 'text-[#059669]';
+                        btnText.textContent = 'Inquiry Dispatched Successfully!';
+                        contactForm.reset();
+
+                        setTimeout(() => {
+                            submitBtn.disabled = false;
+                            btnText.textContent = 'Submit';
+                            statusIndicator.textContent = 'READY';
+                            statusIndicator.className = 'text-vermilion';
+                        }, 4000);
+
+                    } catch (err) {
+                        console.error(err);
+                        showEditorialToast('Error connecting to Google Sheet. Opening mail client...');
+                        statusIndicator.textContent = 'ERROR ✕';
+                        statusIndicator.className = 'text-vermilion';
+
+                        const subject = encodeURIComponent(`Portfolio Inquiry — ${name}`);
+                        const body = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
+                        window.location.href = `mailto:shivanshajmera5@gmail.com?subject=${subject}&body=${body}`;
+
+                        submitBtn.disabled = false;
+                        btnText.textContent = 'Submit';
+                    }
+                });
+            }
+        }
+
+        window.onload = function () {
+            startJaipurClock();
+            initStudioSculpture();
+            setupEventListeners();
+            initEditorialPortfolio();
+        };
+    </script>
+</body>
+</html>
